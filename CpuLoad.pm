@@ -32,7 +32,7 @@ of a machine.
 
  use Sys::CpuLoad;
  print '1 min, 5 min, 15 min load average: ',
-       join(',', CpuLoad::load()), "\n";
+       join(',', Sys::CpuLoad::load()), "\n";
 
 =head1 AUTHOR
 
@@ -50,29 +50,43 @@ of a machine.
 
 use IO::File;
 
+my $cache = 'unknown';
+
 sub load {
 
-  # handle bsd getloadavg()
-  if (lc $^O =~ /bsd/) { return getbsdload() }
+  # handle bsd getloadavg().  Read the README about why it is freebsd/openbsd.
+  if ($cache eq 'getloadavg()' or lc $^O eq 'freebsd' or lc $^O eq 'openbsd' ) {
+    $cache = 'getloadavg()';
+    return getbsdload()
+  }
 
   # handle linux proc filesystem
-  my $fh = new IO::File('/proc/loadavg', 'r');
-  if (defined $fh) {
-    my $line = <$fh>;
-    $fh->close();
-    if ($line =~ /^(\d+\.\d+)\s+(\d+\.\d+)\s+(\d+\.\d+)/) {
-      return ($1, $2, $3);
-    }
-  }
+  if ($cache eq 'unknown' or $cache eq 'linux') {
+    my $fh = new IO::File('/proc/loadavg', 'r');
+    if (defined $fh) {
+      my $line = <$fh>;
+      $fh->close();
+      if ($line =~ /^(\d+\.\d+)\s+(\d+\.\d+)\s+(\d+\.\d+)/) {
+        $cache = 'linux';
+        return ($1, $2, $3);
+      }              # if we can parse /proc/loadavg contents
+    }                # if we could load /proc/loadavg 
+  }                  # if linux or not cached
    
-  $fh=new IO::File('/usr/bin/uptime|');
+  # last resort...
+
+  $cache = 'uptimepipe';
+  local %ENV = %ENV;
+  $ENV{'LC_NUMERIC'}='POSIX';    # ensure that decimal separator is a dot
+
+  my $fh=new IO::File('/usr/bin/uptime|');
   if (defined $fh) {
     my $line = <$fh>;
     $fh->close();
     if ($line =~ /(\d+\.\d+)\s*,\s+(\d+\.\d+)\s*,\s+(\d+\.\d+)\s*$/) {
       return ($1, $2, $3);
-    }
-  }
+    }                # if we can parse the output of /usr/bin/uptime
+  }                  # if we could run /usr/bin/uptime
     
   return (undef, undef, undef);
 }

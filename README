@@ -9,7 +9,14 @@ SYNOPSIS
 
 
 TO-DO
-       Win32 support
+       - Better getloadavg() support.  Currently FreeBSD and OpenBSD
+         are supported.  To improve upon this, see the next item below.
+       - Instead of hard coding preprocessor macros around getloadavg(),
+         try to compile C code snippets to see if getloadavg() is supported.
+       - Wanted: HPUX 11.11 pstat_getprocessor() and
+                 HPUX 11.00 pstat(PSTAT_PROCESSOR, ...)
+                 man pages, sample code, and preprocessor macros.
+       - Win32 support
 
 AUTHOR
         Clinton Wong
