@@ -1,0 +1,3 @@
+Support for:
+- Finding out load averages with native OS system calls.
+- Finding out CPU usage of individual CPU's on a multiprocessor machine.

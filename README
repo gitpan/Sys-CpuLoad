@@ -1,0 +1,25 @@
+DESCRIPTION
+       This module retrieves the 1 minute, 5 minute, and 15
+       minute load average of a machine.
+
+SYNOPSIS
+        use Sys::CpuLoad;
+        print '1 min, 5 min, 15 min load average: ',
+              join(',', Sys::CpuLoad::load()), "\n";
+
+
+TO-DO
+       Support for systems without /proc/loadavg or
+       /usr/bin/uptime by using native system calls.  Ability to
+       read CPU usage of individual CPUs on multiprocessor
+       machines.
+
+AUTHOR
+        Clinton Wong, clintdw@netcom.com
+
+
+COPYRIGHT
+        Copyright (c) 1999 Clinton Wong. All rights reserved.
+        This program is free software; you can redistribute it
+        and/or modify it under the same terms as Perl itself.
+
