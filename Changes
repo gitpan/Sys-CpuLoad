@@ -1,5 +1,8 @@
 Revision history for Perl extension Sys::CpuLoad
 
+0.02 Sun Sun Feb 17 23:43:26 PST 2002
+	- bsd getloadavg() support with help from Dmitry Dorofeev
+
 0.01 Wed Aug 11 15:44:55 PDT 1999
 	- original version; created by h2xs 1.16
 

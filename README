@@ -9,17 +9,15 @@ SYNOPSIS
 
 
 TO-DO
-       Support for systems without /proc/loadavg or
-       /usr/bin/uptime by using native system calls.  Ability to
-       read CPU usage of individual CPUs on multiprocessor
-       machines.
+       Win32 support
 
 AUTHOR
-        Clinton Wong, clintdw@netcom.com
-
+        Clinton Wong
+        Contact info:
+        http://search.cpan.org/search?mode=author&query=CLINTDW
 
 COPYRIGHT
-        Copyright (c) 1999 Clinton Wong. All rights reserved.
+        Copyright (c) 1999-2002 Clinton Wong. All rights reserved.
         This program is free software; you can redistribute it
         and/or modify it under the same terms as Perl itself.
 
